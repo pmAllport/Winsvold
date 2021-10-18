@@ -8,10 +8,7 @@ import 'dart:core';
 
 class ProductTile extends StatefulWidget {
   final rp.ReducedProduct reducedProduct;
-  const ProductTile({required rp.ReducedProduct reducedProduct, Key? key})
-      // ignore: prefer_initializing_formals
-      : reducedProduct = reducedProduct,
-        super(key: key);
+  const ProductTile({required this.reducedProduct, Key? key}) : super(key: key);
 
   @override
   _ProductTileState createState() => _ProductTileState();
@@ -20,114 +17,79 @@ class ProductTile extends StatefulWidget {
 class _ProductTileState extends State<ProductTile> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Container(
-        decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10.0,
-            ),
-          ],
+    return productTile(context, widget.reducedProduct);
+  }
+}
+
+Widget productTile(BuildContext context, rp.ReducedProduct reducedProduct) {
+  return SingleChildScrollView(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SizedBox(
+            height: 100,
+            width: 100,
+            child:
+                Image.network(reducedProduct.image.url, fit: BoxFit.fitHeight)),
+        Flexible(
+          fit: FlexFit.loose,
+          child: ExpansionTile(
+              title: Text(
+                reducedProduct.name,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      textCategoryString(
+                          "Alkoholtype: ", reducedProduct.category, context),
+                      textCategoryString("Produksjonsland: ",
+                          reducedProduct.mainCountry, context),
+                      textCategoryString(
+                          "Volum: ",
+                          (((reducedProduct.volume * 100).toInt().toString()) +
+                              "cl"),
+                          context),
+                      textCategoryString("Alkoholprosent: ",
+                          reducedProduct.alcohol.toString() + "%", context),
+                      textCategoryString("Literspris: ",
+                          reducedProduct.litrePrice.toString() + "kr", context),
+                      textCategoryString("Pris per flaske: ",
+                          reducedProduct.price.toString() + "kr", context),
+                    ],
+                  ),
+                ),
+              ]),
         ),
-        child: Card(
-          borderOnForeground: true,
+        Flexible(
+          fit: FlexFit.loose,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 350,
-              width: MediaQuery.of(context).size.width - 10,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Image.network(widget.reducedProduct.image.url,
-                            fit: BoxFit.fitHeight)),
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: ExpansionTile(
-                          title: Text(
-                            widget.reducedProduct.name,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  textCategoryString("Alkoholtype: ",
-                                      widget.reducedProduct.category, context),
-                                  textCategoryString(
-                                      "Produksjonsland: ",
-                                      widget.reducedProduct.mainCountry,
-                                      context),
-                                  textCategoryString(
-                                      "Volum: ",
-                                      (((widget.reducedProduct.volume * 100)
-                                              .toInt()
-                                              .toString()) +
-                                          "cl"),
-                                      context),
-                                  textCategoryString(
-                                      "Alkoholprosent: ",
-                                      widget.reducedProduct.alcohol.toString() +
-                                          "%",
-                                      context),
-                                  textCategoryString(
-                                      "Literspris: ",
-                                      widget.reducedProduct.litrePrice
-                                              .toString() +
-                                          "kr",
-                                      context),
-                                  textCategoryString(
-                                      "Pris per flaske: ",
-                                      widget.reducedProduct.price.toString() +
-                                          "kr",
-                                      context),
-                                ],
-                              ),
-                            ),
-                          ]),
-                    ),
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            textInfoString(
-                                "Pris per shot",
-                                (calculatePricePerShotWithSpoilage(
-                                            widget.reducedProduct.price,
-                                            widget.reducedProduct.volume)
-                                        .toStringAsFixed(2) +
-                                    "kr"),
-                                context),
-                            textInfoString(
-                                "Pris per shot avrundet",
-                                (calculateFinalShotPriceCeiling(
-                                            widget.reducedProduct.price,
-                                            widget.reducedProduct.volume)
-                                        .toStringAsFixed(2) +
-                                    "kr"),
-                                context),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            child: Column(
+              children: [
+                textInfoString(
+                    "Pris per shot",
+                    (calculatePricePerShotWithSpoilage(
+                                reducedProduct.price, reducedProduct.volume)
+                            .toStringAsFixed(2) +
+                        "kr"),
+                    context),
+                textInfoString(
+                    "Pris per shot avrundet",
+                    (calculateFinalShotPriceCeiling(
+                                reducedProduct.price, reducedProduct.volume)
+                            .toStringAsFixed(2) +
+                        "kr"),
+                    context),
+              ],
             ),
           ),
         ),
-      ),
-    );
-  }
+      ],
+    ),
+  );
 }
 
 Widget textInfoString(String text, String value, context) {

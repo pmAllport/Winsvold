@@ -1,4 +1,3 @@
-import 'package:winsvold/models/product.dart';
 import 'package:winsvold/models/reduced_product.dart';
 import 'package:equatable/equatable.dart';
 

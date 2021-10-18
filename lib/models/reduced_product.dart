@@ -1,6 +1,5 @@
 import 'dart:ffi';
 import 'package:flutter/foundation.dart';
-import 'package:winsvold/models/product.dart' as Prod;
 
 class ReducedProduct {
   ReducedProduct({

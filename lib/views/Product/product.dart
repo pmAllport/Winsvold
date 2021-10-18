@@ -8,11 +8,9 @@ import 'package:winsvold/views/Product/product_tile.dart';
 class Product extends StatefulWidget {
   final int productId;
   const Product({
-    required int productId,
+    required this.productId,
     Key? key,
-    // ignore: prefer_initializing_formals
-  })  : productId = productId,
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _ProductState createState() => _ProductState();
@@ -35,22 +33,54 @@ class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
     super.build(context);
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
-        if (state is ProductLoading) {
-          return SizedBox(
-              width: 200,
-              height: 200,
-              child: Scaffold(
-                appBar: AppBar(title: const Text('Loading')),
-                body: const LinearProgressIndicator(),
-              ));
-        } else if (state is ProductSuccess) {
-          return ProductTile(reducedProduct: state.reducedProduct);
-        } else if (state is ProductFailed) {
-          return const Text("Productfailed");
-        }
-        return const Text("Neither Productloading or productsuccess");
+        return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Container(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10.0,
+                  ),
+                ],
+              ),
+              child: Card(
+                borderOnForeground: true,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                      height: 350,
+                      width: MediaQuery.of(context).size.width,
+                      child: stateSelector(state)),
+                ),
+              ),
+            ));
       },
     );
+  }
+
+  Widget stateSelector(ProductState state) {
+    if (state is ProductLoading) {
+      return Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(20.0),
+            child: CircularProgressIndicator(),
+          ),
+          Text(
+            "Laster inn produkt",
+            style: Theme.of(context).textTheme.subtitle2,
+          )
+        ],
+      ));
+    } else if (state is ProductSuccess) {
+      return ProductTile(reducedProduct: state.reducedProduct);
+    } else if (state is ProductFailed) {
+      return const Text("Productfailed");
+    }
+    return const Text("Neither Productloading or productsuccess");
   }
 
   @override

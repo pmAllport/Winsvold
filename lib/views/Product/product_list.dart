@@ -9,10 +9,7 @@ import 'package:winsvold/views/Product/product_tile.dart';
 
 class ProductList extends StatefulWidget {
   final List<int> productList;
-  const ProductList({required List<int> productList, Key? key})
-      // ignore: prefer_initializing_formals
-      : productList = productList,
-        super(key: key);
+  const ProductList({required this.productList, Key? key}) : super(key: key);
 
   @override
   _ProductListState createState() => _ProductListState();

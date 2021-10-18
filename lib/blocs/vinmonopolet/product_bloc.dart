@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
 // We set "category" as cat, due to that "Category" is a protected term in Flutter.
-import 'package:winsvold/models/product.dart';
 import 'package:winsvold/models/reduced_product.dart';
 import 'package:winsvold/data/product_repository.dart';
 import 'package:http/http.dart';
@@ -21,7 +20,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     if (event is ProductRequested) {
       yield ProductLoading();
       try {
-        Product? product;
         try {
           Client client = Client();
           StreamedResponse? productResponse = await repository.fetchProduct(
