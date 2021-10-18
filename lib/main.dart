@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         onBackground: Color(0xFFfefefe),
         onError: Color(0xFFfefefe),
         brightness: Brightness.light);
+
     return MaterialApp(
         onGenerateRoute: (RouteSettings settings) {
           return MaterialPageRoute(

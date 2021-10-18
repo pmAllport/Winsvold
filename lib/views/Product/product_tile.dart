@@ -34,9 +34,13 @@ Widget productTile(BuildContext context, rp.ReducedProduct reducedProduct) {
         Flexible(
           fit: FlexFit.loose,
           child: ExpansionTile(
-              title: Text(
-                reducedProduct.name,
-                style: Theme.of(context).textTheme.headline6,
+              title: Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: Text(
+                  reducedProduct.name,
+                  style: Theme.of(context).textTheme.headline6,
+                  textAlign: TextAlign.center,
+                ),
               ),
               children: [
                 Padding(
@@ -44,7 +48,7 @@ Widget productTile(BuildContext context, rp.ReducedProduct reducedProduct) {
                   child: Column(
                     children: [
                       textCategoryString(
-                          "Alkoholtype: ", reducedProduct.category, context),
+                          "Alkoholtype: ", reducedProduct.subCategory, context),
                       textCategoryString("Produksjonsland: ",
                           reducedProduct.mainCountry, context),
                       textCategoryString(
@@ -67,24 +71,42 @@ Widget productTile(BuildContext context, rp.ReducedProduct reducedProduct) {
           fit: FlexFit.loose,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                textInfoString(
-                    "Pris per shot",
-                    (calculatePricePerShotWithSpoilage(
-                                reducedProduct.price, reducedProduct.volume)
-                            .toStringAsFixed(2) +
-                        "kr"),
-                    context),
-                textInfoString(
-                    "Pris per shot avrundet",
-                    (calculateFinalShotPriceCeiling(
-                                reducedProduct.price, reducedProduct.volume)
-                            .toStringAsFixed(2) +
-                        "kr"),
-                    context),
-              ],
-            ),
+            child: reducedProduct.usesShots
+                ? Column(
+                    children: [
+                      textInfoString(
+                          "Pris per shot",
+                          (calculatePricePerShotWithSpoilage(
+                                      reducedProduct.price,
+                                      reducedProduct.volume)
+                                  .toStringAsFixed(2) +
+                              "kr"),
+                          context),
+                      textInfoString(
+                          "Pris per shot avrundet",
+                          (calculateFinalShotPriceCeiling(reducedProduct.price,
+                                      reducedProduct.volume)
+                                  .toStringAsFixed(2) +
+                              "kr"),
+                          context),
+                    ],
+                  )
+                : Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: textInfoString(
+                              "Pris per flaske",
+                              calculateBottlePrice(reducedProduct.price)
+                                      .toStringAsFixed(2) +
+                                  "kr",
+                              context),
+                        )
+                      ],
+                    ),
+                  ),
           ),
         ),
       ],
@@ -143,6 +165,10 @@ double calculatePricePerShotWithSpoilage(double price, double volume) {
 double calculateFinalShotPriceCeiling(double price, double volume) {
   return (calculatePricePerShotWithSpoilage(price, volume) / 5).ceilToDouble() *
       5;
+}
+
+double calculateBottlePrice(double price) {
+  return (price / 5).ceilToDouble() * 5;
 }
 
 

@@ -22,7 +22,8 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Winsvold")),
+        centerTitle: true,
+        title: const Text("Winsvold"),
       ),
       body: Center(
         child: ListView.builder(

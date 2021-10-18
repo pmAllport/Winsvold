@@ -53,7 +53,7 @@ class _OCRPageState extends State<OCRPage> {
                             vertical: 10, horizontal: 20),
                         child: ElevatedButton(
                           child: const Text(
-                            'Vennligst velg et bilde av kvitteringen.',
+                            'Velg bilde av kvitteringen.',
                             style: TextStyle(
                               color: Colors.white,
                             ),
