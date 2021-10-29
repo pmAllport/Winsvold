@@ -35,29 +35,11 @@ class _ProductListState extends State<ProductList> {
                   create: (context) =>
                       ProductBloc(repository: productRepository),
                   child: Product(productId: widget.productList[index]));
-              // To convert this infinite list to a list with three items,
-              // uncomment the following line:
-              // if (index > 3) return null;
             },
-
-            // Or, uncomment the following line:
             childCount: widget.productList.length,
           ),
         ),
-      ])
-
-          // ListView.builder(
-          //     addAutomaticKeepAlives: true,
-          //     shrinkWrap: true,
-          //     itemCount: widget.productList.length,
-          //     itemExtent: 450,
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return BlocProvider(
-          //           create: (context) =>
-          //               ProductBloc(repository: productRepository),
-          //           child: Product(productId: widget.productList[index]));
-          //     }),
-          ),
+      ])),
     );
   }
 }
