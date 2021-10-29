@@ -15,104 +15,172 @@ class ProductTile extends StatefulWidget {
 }
 
 class _ProductTileState extends State<ProductTile> {
+  bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
-    return productTile(context, widget.reducedProduct);
-  }
-}
-
-Widget productTile(BuildContext context, rp.ReducedProduct reducedProduct) {
-  return SingleChildScrollView(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(
-            height: 100,
-            width: 100,
-            child:
-                Image.network(reducedProduct.image.url, fit: BoxFit.fitHeight)),
-        Flexible(
-          fit: FlexFit.loose,
-          child: ExpansionTile(
-              title: Padding(
-                padding: const EdgeInsets.only(left: 40),
-                child: Text(
-                  reducedProduct.name,
-                  style: Theme.of(context).textTheme.headline6,
-                  textAlign: TextAlign.center,
-                ),
-              ),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SizedBox(
+              height: 100,
+              width: MediaQuery.of(context).size.width - 100,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Image.network(widget.reducedProduct.image.url,
+                        fit: BoxFit.fitHeight),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                    ),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Icon(
+                        Icons.error,
+                        color: Theme.of(context).colorScheme.error,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            height: _isExpanded ? 220 : 65,
+            width: MediaQuery.of(context).size.width - 80,
+            child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      textCategoryString(
-                          "Alkoholtype: ", reducedProduct.subCategory, context),
-                      textCategoryString("Produksjonsland: ",
-                          reducedProduct.mainCountry, context),
-                      textCategoryString(
-                          "Volum: ",
-                          (((reducedProduct.volume * 100).toInt().toString()) +
-                              "cl"),
-                          context),
-                      textCategoryString("Alkoholprosent: ",
-                          reducedProduct.alcohol.toString() + "%", context),
-                      textCategoryString("Literspris: ",
-                          reducedProduct.litrePrice.toString() + "kr", context),
-                      textCategoryString("Pris per flaske: ",
-                          reducedProduct.price.toString() + "kr", context),
-                    ],
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: ListTileTheme(
+                    contentPadding: const EdgeInsets.only(right: 10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: ExpansionTile(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onBackground,
+                          onExpansionChanged: (bool expanded) {
+                            setState(() => _isExpanded = expanded);
+                          },
+                          trailing: Icon(
+                              _isExpanded
+                                  ? Icons.arrow_drop_down_circle
+                                  : Icons.arrow_drop_down_circle_outlined,
+                              size: 30,
+                              color: Theme.of(context).colorScheme.primary),
+                          title: Padding(
+                            padding: EdgeInsets.only(
+                                left: (MediaQuery.of(context).size.width / 8)),
+                            child: Text(
+                              widget.reducedProduct.name,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: Theme.of(context).textTheme.headline6,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, bottom: 20),
+                              child: Column(
+                                children: [
+                                  textCategoryString(
+                                      "Alkoholtype: ",
+                                      widget.reducedProduct.subCategory,
+                                      context),
+                                  textCategoryString(
+                                      "Produksjonsland: ",
+                                      widget.reducedProduct.mainCountry,
+                                      context),
+                                  textCategoryString(
+                                      "Volum: ",
+                                      (((widget.reducedProduct.volume * 100)
+                                              .toInt()
+                                              .toString()) +
+                                          "cl"),
+                                      context),
+                                  textCategoryString(
+                                      "Alkoholprosent: ",
+                                      widget.reducedProduct.alcohol.toString() +
+                                          "%",
+                                      context),
+                                  textCategoryString(
+                                      "Literspris: ",
+                                      widget.reducedProduct.litrePrice
+                                              .toString() +
+                                          "kr",
+                                      context),
+                                  textCategoryString(
+                                      "Pris per flaske: ",
+                                      widget.reducedProduct.price.toString() +
+                                          "kr",
+                                      context),
+                                ],
+                              ),
+                            ),
+                          ]),
+                    ),
                   ),
                 ),
-              ]),
-        ),
-        Flexible(
-          fit: FlexFit.loose,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: reducedProduct.usesShots
-                ? Column(
-                    children: [
-                      textInfoString(
-                          "Pris per shot",
-                          (calculatePricePerShotWithSpoilage(
-                                      reducedProduct.price,
-                                      reducedProduct.volume)
-                                  .toStringAsFixed(2) +
-                              "kr"),
-                          context),
-                      textInfoString(
-                          "Pris per shot avrundet",
-                          (calculateFinalShotPriceCeiling(reducedProduct.price,
-                                      reducedProduct.volume)
-                                  .toStringAsFixed(2) +
-                              "kr"),
-                          context),
-                    ],
-                  )
-                : Expanded(
-                    child: Column(
+              ],
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: widget.reducedProduct.usesShots
+                  ? Column(
+                      children: [
+                        textInfoString(
+                            "Pris per shot",
+                            (calculatePricePerShotWithSpoilage(
+                                        widget.reducedProduct.price,
+                                        widget.reducedProduct.volume)
+                                    .toStringAsFixed(2) +
+                                "kr"),
+                            context),
+                        textInfoString(
+                            "Pris per shot avrundet",
+                            (calculateFinalShotPriceCeiling(
+                                        widget.reducedProduct.price,
+                                        widget.reducedProduct.volume)
+                                    .toStringAsFixed(2) +
+                                "kr"),
+                            context),
+                      ],
+                    )
+                  : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 20),
+                          padding: const EdgeInsets.only(bottom: 30),
                           child: textInfoString(
                               "Pris per flaske",
-                              calculateBottlePrice(reducedProduct.price)
+                              calculateBottlePrice(widget.reducedProduct.price)
                                       .toStringAsFixed(2) +
                                   "kr",
                               context),
                         )
                       ],
                     ),
-                  ),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
+
+// Widget productTile(BuildContext context, rp.ReducedProduct reducedProduct) extends StatefulWidget{
+//   bool _isExpanded = false;
+//   Widget build(BuildContext context){
+
+//   return Contaner();
+// }
 
 Widget textInfoString(String text, String value, context) {
   return Column(
@@ -180,3 +248,5 @@ double calculateBottlePrice(double price) {
 //       category: category,
 //       mainCountry: country,
 //       litrePrice: litrePrice,
+
+

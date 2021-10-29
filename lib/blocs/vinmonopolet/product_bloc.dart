@@ -18,28 +18,36 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   @override
   Stream<ProductState> mapEventToState(ProductEvent event) async* {
     if (event is ProductRequested) {
+      Client client = Client();
+      StreamedResponse? productResponse;
       yield ProductLoading();
       try {
         try {
-          Client client = Client();
-          StreamedResponse? productResponse = await repository.fetchProduct(
+          productResponse = await repository.fetchProduct(
               productId: event.productId, client: client);
 
-          if (productResponse == null) {
-            yield ProductInvalid();
-            client.close();
-          } else {
-            Response completeResponse =
-                await Response.fromStream(productResponse);
-            client.close();
-
+          // This means that the product failed to fetch;
+        } catch (e, stacktrace) {
+          debugPrint(e.toString());
+          yield ProductInvalid();
+        }
+        late Response completeResponse;
+        if (productResponse == null) {
+          yield ProductInvalid();
+          client.close();
+        } else {
+          completeResponse = await Response.fromStream(productResponse);
+          client.close();
+          try {
             yield (ProductSuccess(
                 reducedProduct: ReducedProduct.fromJson(
                     jsonDecode(completeResponse.body))));
+
+            // This means that the product failed to create a model from the json body. Probably a bad json from an outphased product.
+          } catch (e, stacktrace) {
+            debugPrint(e.toString());
+            yield ProductInvalid();
           }
-        } catch (e, stacktrace) {
-          debugPrint(e.toString());
-          yield ProductFailed();
         }
       } catch (e, stackTrace) {
         yield ProductFailed();

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
+import 'package:winsvold/views/Product/product_invalid.dart';
 import 'package:winsvold/views/Product/product_tile.dart';
 
 class Product extends StatefulWidget {
@@ -47,11 +48,10 @@ class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
               child: Card(
                 borderOnForeground: true,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: SizedBox(
-                      height: 350,
                       width: MediaQuery.of(context).size.width,
-                      child: stateSelector(state)),
+                      child: stateSelector(state, context)),
                 ),
               ),
             ));
@@ -59,28 +59,40 @@ class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  Widget stateSelector(ProductState state) {
+  Widget stateSelector(ProductState state, BuildContext context) {
     if (state is ProductLoading) {
       return Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(20.0),
-            child: CircularProgressIndicator(),
-          ),
-          Text(
-            "Laster inn produkt",
-            style: Theme.of(context).textTheme.subtitle2,
+          SizedBox(
+            height: 340,
+            width: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: CircularProgressIndicator(),
+                ),
+                Text(
+                  "Laster inn produkt",
+                  style: Theme.of(context).textTheme.subtitle2,
+                )
+              ],
+            ),
           )
         ],
       ));
     } else if (state is ProductSuccess) {
       return ProductTile(reducedProduct: state.reducedProduct);
-    } else if (state is ProductFailed) {
-      return const Text("Productfailed");
+    } else if (state is ProductInvalid) {
+      return ProductInvalidTile(
+        context: context,
+      );
+    } else {
+      return const Text("Neither Productloading or productsuccess");
     }
-    return const Text("Neither Productloading or productsuccess");
   }
 
   @override
