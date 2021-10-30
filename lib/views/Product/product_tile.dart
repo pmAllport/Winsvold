@@ -131,44 +131,41 @@ class _ProductTileState extends State<ProductTile> {
           ),
           Flexible(
             fit: FlexFit.loose,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: widget.reducedProduct.usesShots
-                  ? Column(
-                      children: [
-                        textInfoString(
-                            "Pris per shot",
-                            (calculatePricePerShotWithSpoilage(
-                                        widget.reducedProduct.price,
-                                        widget.reducedProduct.volume)
+            child: widget.reducedProduct.usesShots
+                ? Column(
+                    children: [
+                      textInfoString(
+                          "Pris per shot",
+                          (calculatePricePerShotWithSpoilage(
+                                      widget.reducedProduct.price,
+                                      widget.reducedProduct.volume)
+                                  .toStringAsFixed(2) +
+                              "kr"),
+                          context),
+                      textInfoString(
+                          "Pris per shot avrundet",
+                          (calculateFinalShotPriceCeiling(
+                                      widget.reducedProduct.price,
+                                      widget.reducedProduct.volume)
+                                  .toStringAsFixed(2) +
+                              "kr"),
+                          context),
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: textInfoString(
+                            "Pris per flaske",
+                            calculateBottlePrice(widget.reducedProduct.price)
                                     .toStringAsFixed(2) +
-                                "kr"),
+                                "kr",
                             context),
-                        textInfoString(
-                            "Pris per shot avrundet",
-                            (calculateFinalShotPriceCeiling(
-                                        widget.reducedProduct.price,
-                                        widget.reducedProduct.volume)
-                                    .toStringAsFixed(2) +
-                                "kr"),
-                            context),
-                      ],
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: textInfoString(
-                              "Pris per flaske",
-                              calculateBottlePrice(widget.reducedProduct.price)
-                                      .toStringAsFixed(2) +
-                                  "kr",
-                              context),
-                        )
-                      ],
-                    ),
-            ),
+                      )
+                    ],
+                  ),
           ),
         ],
       ),

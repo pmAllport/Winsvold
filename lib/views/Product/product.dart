@@ -48,7 +48,8 @@ class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
               child: Card(
                 borderOnForeground: true,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 15.0),
                   child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: stateSelector(state, context)),
