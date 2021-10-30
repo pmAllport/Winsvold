@@ -31,14 +31,10 @@ class ReducedProduct {
 
   factory ReducedProduct.fromJson(Map<String, dynamic> json) {
     String name = json['name'].toString();
-    debugPrint("Test1");
     double price = json['price']['value'].toDouble();
-    debugPrint("Test2");
     Image image = Image.fromJson(json['images']);
     double volume = json['volume']['value'].toDouble();
-    debugPrint("Test3");
     double alcohol = json['alcohol']['value'].toDouble();
-    debugPrint("Test4");
     String mainCategory = json['main_category']['name'].toString();
 
     // If we dont have a sub_category, like "vodka" for "brennevin", then we use their main category
@@ -53,9 +49,7 @@ class ReducedProduct {
         ? true
         : false;
     String country = json['main_country']['name'].toString();
-    debugPrint("Test5");
     double litrePrice = json['litrePrice']['value'].toDouble();
-    debugPrint("Test4");
     return ReducedProduct(
         name: name,
         price: price,
