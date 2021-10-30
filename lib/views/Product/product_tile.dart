@@ -249,7 +249,10 @@ Future<void> _buildDialog(BuildContext tileContext) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       List<Widget> submitListBody = [
-        const Text('Vennligst skriv inn det korrekte produktnummeret.'),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.0),
+          child: Text('Vennligst skriv inn det korrekte produktnummeret.'),
+        ),
         TextField(
           onSubmitted: (String input) {
             ProductBloc productBloc = BlocProvider.of<ProductBloc>(tileContext);
