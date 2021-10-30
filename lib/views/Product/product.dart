@@ -85,7 +85,10 @@ class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
         ],
       ));
     } else if (state is ProductSuccess) {
-      return ProductTile(reducedProduct: state.reducedProduct);
+      return ProductTile(
+        reducedProduct: state.reducedProduct,
+        context: context,
+      );
     } else if (state is ProductInvalid) {
       return ProductInvalidTile(
         context: context,

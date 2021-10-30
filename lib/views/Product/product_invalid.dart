@@ -43,7 +43,7 @@ class _ProductInvalidTileState extends State<ProductInvalidTile> {
                 enabledBorder: OutlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFF002025))),
-                hintText: 'Sett inn produktnummer',
+                hintText: 'Skriv inn produktnummer',
               ),
             ),
           ),

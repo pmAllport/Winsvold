@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
 import 'package:winsvold/models/reduced_product.dart' as rp;
 import 'dart:core';
 
 class ProductTile extends StatefulWidget {
+  final BuildContext context;
   final rp.ReducedProduct reducedProduct;
-  const ProductTile({required this.reducedProduct, Key? key}) : super(key: key);
+  const ProductTile(
+      {required this.context, required this.reducedProduct, Key? key})
+      : super(key: key);
 
   @override
   _ProductTileState createState() => _ProductTileState();
@@ -24,26 +28,23 @@ class _ProductTileState extends State<ProductTile> {
         children: <Widget>[
           SizedBox(
               height: 100,
-              width: MediaQuery.of(context).size.width - 100,
+              width: MediaQuery.of(context).size.width - 80,
               child: Stack(
                 children: [
                   Center(
                     child: Image.network(widget.reducedProduct.image.url,
                         fit: BoxFit.fitHeight),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                    ),
-                    child: Align(
+                  Align(
                       alignment: Alignment.topRight,
-                      child: Icon(
-                        Icons.error,
-                        color: Theme.of(context).colorScheme.error,
-                        size: 30.0,
-                      ),
-                    ),
-                  ),
+                      child: IconButton(
+                        onPressed: () => {_buildDialog(context)},
+                        icon: Icon(
+                          Icons.error,
+                          color: Theme.of(context).colorScheme.error,
+                          size: 30.0,
+                        ),
+                      )),
                 ],
               )),
           AnimatedContainer(
@@ -175,13 +176,6 @@ class _ProductTileState extends State<ProductTile> {
   }
 }
 
-// Widget productTile(BuildContext context, rp.ReducedProduct reducedProduct) extends StatefulWidget{
-//   bool _isExpanded = false;
-//   Widget build(BuildContext context){
-
-//   return Contaner();
-// }
-
 Widget textInfoString(String text, String value, context) {
   return Column(
     children: [
@@ -239,6 +233,85 @@ double calculateBottlePrice(double price) {
   return (price / 5).ceilToDouble() * 5;
 }
 
+// This is a bad piece of code, this can definitely be rewritten.
+// The code refers to two different sets of listbody and actionbodies.
+// Listbody determines the text and header values which describe the type of alert.
+// Actionbody contains the buttons and their actions.
+// initialListBody and initialActionBody contain a description of the problem, and an action for the user to determine whether or not
+// an incorrect productnumber was read.
+// submitListBody and submitActionBody contain an inputfield for the user to enter the correct product id.
+// listBody and actionBody is a pointer to these two widgets, which changes depending upon if the user has pressed "Yes"
+// in the initial alert. Upon pressing "yes", the alert changes to the inputfield, defined in submitListBody and submitActionBody.
+// This is superjank and should be refactored, but works for now. #TemporarilyPermanent.
+Future<void> _buildDialog(BuildContext tileContext) async {
+  return showDialog<void>(
+    context: tileContext,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      List<Widget> submitListBody = [
+        const Text('Vennligst skriv inn det korrekte produktnummeret.'),
+        TextField(
+          onSubmitted: (String input) {
+            ProductBloc productBloc = BlocProvider.of<ProductBloc>(tileContext);
+            productBloc.add(ProductRequested(productId: int.parse(input)));
+            Navigator.of(context).pop();
+          },
+          decoration: const InputDecoration(
+            enabledBorder: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFF002025))),
+            hintText: 'Skriv inn produktnummer',
+          ),
+        ),
+      ];
+      List<Widget> submitActionBody = [];
+
+      List<Widget> intialActionBody = [];
+      List<Widget> intialListBody = [];
+
+      List<Widget> listBody;
+      List<Widget> actionBody;
+
+      bool hasEnteredSubmit = false;
+
+      // For null-safety reasons, we point to an empty widgetlist, even though it will never not be pointing to the correct widget list (hopefully).
+      listBody = intialListBody;
+      actionBody = intialActionBody;
+      return StatefulBuilder(builder: (context, setState) {
+        if (!hasEnteredSubmit) {
+          List<Widget> intialListBody = [
+            const Text('Oops, har applikasjonen lest feil produktkode?'),
+          ];
+          List<Widget> intialActionBody = [
+            TextButton(
+              child: const Text('Ja'),
+              onPressed: () => setState(() =>
+                  {listBody = submitListBody, actionBody = submitActionBody}),
+            ),
+            TextButton(
+              child: const Text('Nei'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ];
+          listBody = intialListBody;
+          actionBody = intialActionBody;
+          hasEnteredSubmit = true;
+        }
+
+        return AlertDialog(
+            title: const Text('Feil produkt?'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: listBody,
+              ),
+            ),
+            actions: actionBody);
+      });
+    },
+  );
+}
 
 // name: name,
 //       price: price,
@@ -248,5 +321,3 @@ double calculateBottlePrice(double price) {
 //       category: category,
 //       mainCountry: country,
 //       litrePrice: litrePrice,
-
-
