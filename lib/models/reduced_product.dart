@@ -27,7 +27,7 @@ class ReducedProduct {
   final String mainCountry;
   final double litrePrice;
   final bool usesShots;
-  final int? amount;
+  int? amount;
 
   factory ReducedProduct.fromJson(Map<String, dynamic> json) {
     String name = json['name'].toString();

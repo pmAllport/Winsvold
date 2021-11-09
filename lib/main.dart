@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:winsvold/views/OCR/ocr.dart';
-import 'package:winsvold/views/Product/product.dart';
+import 'package:winsvold/views/OCRView/ocr.dart';
+import 'package:winsvold/views/ProductView/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/simple_bloc_observer.dart';
 import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
 import 'package:winsvold/data/product_repository.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:winsvold/views/Product/product_list.dart';
+import 'package:winsvold/views/ProductView/product_list.dart';
 import 'package:winsvold/views/routes.dart';
 
 void main() {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         onSecondary: Color(0xFFfefefe),
         onSurface: Color(0xFFfefefe),
         onBackground: Color(0xFFdcf2eb),
-        onError: Color(0xFFfefefe),
+        onError: Color(0xFF6C2025),
         brightness: Brightness.light);
 
     return MaterialApp(
@@ -47,6 +47,8 @@ class MyApp extends StatelessWidget {
                     );
                   case ExtractProductList.routeName:
                     return const ExtractProductList();
+                  case ExtractAmountList.routeName:
+                    return const ExtractAmountList();
                   default:
                     return OCRPage(
                       title: "OCR",

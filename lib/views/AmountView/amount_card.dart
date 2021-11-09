@@ -3,21 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
-import 'package:winsvold/views/Product/product_invalid.dart';
-import 'package:winsvold/views/Product/product_tile.dart';
+import 'package:winsvold/views/ProductView/product_invalid.dart';
+import 'package:winsvold/views/ProductView/product_view_tile.dart';
 
-class Product extends StatefulWidget {
+import 'amount_list_tile.dart';
+
+class AmountCard extends StatefulWidget {
   final int productId;
-  const Product({
+  const AmountCard({
     required this.productId,
     Key? key,
   }) : super(key: key);
 
   @override
-  _ProductState createState() => _ProductState();
+  _AmountCardState createState() => _AmountCardState();
 }
 
-class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
+class _AmountCardState extends State<AmountCard>
+    with AutomaticKeepAliveClientMixin {
   late ProductBloc _vmpBlocProvider;
   late int productId;
 
@@ -86,7 +89,7 @@ class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
         ],
       ));
     } else if (state is ProductSuccess) {
-      return ProductTile(
+      return AmountListTile(
         reducedProduct: state.reducedProduct,
         context: context,
       );

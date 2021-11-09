@@ -14,11 +14,12 @@ class ProductFailed extends ProductState {}
 
 class ProductSuccess extends ProductState {
   final ReducedProduct reducedProduct;
+  bool isQuantityView = false;
 
   ProductSuccess({required this.reducedProduct});
 
   @override
-  List<Object> get props => [reducedProduct];
+  List<Object> get props => [reducedProduct, isQuantityView];
 
   @override
   String toString() => 'Success { categories: $reducedProduct }';

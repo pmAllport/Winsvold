@@ -4,8 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
 import 'package:winsvold/data/product_repository.dart';
-import 'package:winsvold/views/Product/product.dart';
-import 'package:winsvold/views/Product/product_tile.dart';
+import 'package:winsvold/utils/navigator_arguments.dart';
+import 'package:winsvold/views/ProductView/product.dart';
+import 'package:winsvold/views/ProductView/product_view_tile.dart';
+
+import '../routes.dart';
 
 class ProductList extends StatefulWidget {
   final List<int> productList;
@@ -25,10 +28,21 @@ class _ProductListState extends State<ProductList> {
     return Scaffold(
       body: Center(
           child: CustomScrollView(slivers: <Widget>[
-        const SliverAppBar(
+        SliverAppBar(
           title: Text('Winsvold'),
           centerTitle: true,
           expandedHeight: 60.0,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: IconButton(
+                icon: const Icon(Icons.add_circle_outlined),
+                onPressed: (() => {
+                      _buildDialog(context, productList, refresh),
+                    }),
+              ),
+            ),
+          ],
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -48,9 +62,11 @@ class _ProductListState extends State<ProductList> {
               padding: const EdgeInsets.all(20),
               child: ElevatedButton(
                 onPressed: (() => {
-                      _buildDialog(context, productList, refresh),
+                      Navigator.of(context).pushNamed(
+                          ExtractAmountList.routeName,
+                          arguments: ProductArguments(productList: productList))
                     }),
-                child: const Text("Legg til nytt produkt"),
+                child: const Text("Fortsett videre og sett inn antall"),
               ),
             ),
           ),

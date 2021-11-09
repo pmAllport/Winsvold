@@ -12,7 +12,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:winsvold/utils/navigator_arguments.dart';
-import 'package:winsvold/views/OCR/bulletpoint.dart';
+import 'package:winsvold/views/OCRView/bulletpoint.dart';
 import 'package:winsvold/views/routes.dart';
 
 class OCRPage extends StatefulWidget {
@@ -59,43 +59,43 @@ class _OCRPageState extends State<OCRPage> {
                             ),
                           ),
                           onPressed: () async {
-                            // Navigator.of(context).pushNamed(
-                            //     ExtractProductList.routeName,
-                            //     arguments: ProductArguments(productList: [
-                            //       2248502,
-                            //       11164201,
-                            //       1126801,
-                            //       12934302
-                            //     ]));
+                            Navigator.of(context).pushNamed(
+                                ExtractProductList.routeName,
+                                arguments: ProductArguments(productList: [
+                                  2248502,
+                                  11164201,
+                                  1126801,
+                                  12934302
+                                ]));
 
-                            final ImagePicker _picker = ImagePicker();
-                            _pickedImage = await _picker.pickImage(
-                                source: ImageSource.gallery);
-                            setState(() {
-                              _scanning = true;
-                            });
-                            String _extractText =
-                                await FlutterTesseractOcr.extractText(
-                                    _pickedImage!.path,
-                                    language: 'nor');
-                            setState(() {
-                              var matches = widget.listRegex.allMatches(
-                                  _extractText.replaceAll("\n", " "));
+                            // final ImagePicker _picker = ImagePicker();
+                            // _pickedImage = await _picker.pickImage(
+                            //     source: ImageSource.gallery);
+                            // setState(() {
+                            //   _scanning = true;
+                            // });
+                            // String _extractText =
+                            //     await FlutterTesseractOcr.extractText(
+                            //         _pickedImage!.path,
+                            //         language: 'nor');
+                            // setState(() {
+                            //   var matches = widget.listRegex.allMatches(
+                            //       _extractText.replaceAll("\n", " "));
 
-                              for (var match in matches) {
-                                debugPrint(match.group(0).toString());
-                              }
-                              var numberMatches = widget.numberRegex
-                                  .allMatches(matches.first.group(0).toString())
-                                  .map((match) =>
-                                      int.parse(match.group(0).toString()))
-                                  .toList();
-                              _scanning = false;
-                              Navigator.of(context).pushNamed(
-                                  ExtractProductList.routeName,
-                                  arguments: ProductArguments(
-                                      productList: numberMatches));
-                            });
+                            //   for (var match in matches) {
+                            //     debugPrint(match.group(0).toString());
+                            //   }
+                            //   var numberMatches = widget.numberRegex
+                            //       .allMatches(matches.first.group(0).toString())
+                            //       .map((match) =>
+                            //           int.parse(match.group(0).toString()))
+                            //       .toList();
+                            //   _scanning = false;
+                            //   Navigator.of(context).pushNamed(
+                            //       ExtractProductList.routeName,
+                            //       arguments: ProductArguments(
+                            //           productList: numberMatches));
+                            // });
                           },
                         ),
                       ),

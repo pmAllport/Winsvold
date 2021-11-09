@@ -7,18 +7,18 @@ import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
 import 'package:winsvold/models/reduced_product.dart' as rp;
 import 'dart:core';
 
-class ProductTile extends StatefulWidget {
+class ProductViewTile extends StatefulWidget {
   final BuildContext context;
   final rp.ReducedProduct reducedProduct;
-  const ProductTile(
+  const ProductViewTile(
       {required this.context, required this.reducedProduct, Key? key})
       : super(key: key);
 
   @override
-  _ProductTileState createState() => _ProductTileState();
+  _ProductViewTileState createState() => _ProductViewTileState();
 }
 
-class _ProductTileState extends State<ProductTile> {
+class _ProductViewTileState extends State<ProductViewTile> {
   bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
