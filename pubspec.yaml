@@ -41,12 +41,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc: ^7.0.0
-  flutter_bloc: ^7.0.0
+  bloc: ^8.0.1
+  flutter_bloc: ^8.0.0
   equatable: ^2.0.0
   http: ^0.13.4
   image_picker: ^0.8.4+2 
-  exif: ^2.1.0
+  exif: ^3.0.1
   flutter_launcher_icons: "^0.9.2"
 
   # The "flutter_lints" package below contains a set of recommended lints to

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
+import 'package:winsvold/blocs/product_view/product_bucket.dart';
 import 'package:winsvold/data/product_repository.dart';
 import 'package:winsvold/views/ProductView/product.dart';
 import 'package:winsvold/views/ProductView/product_view_tile.dart';
@@ -35,6 +35,7 @@ class _ProductInvalidTileState extends State<ProductInvalidTile> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: TextField(
+              keyboardType: TextInputType.number,
               onSubmitted: (String input) {
                 ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
                 productBloc.add(ProductRequested(productId: int.parse(input)));

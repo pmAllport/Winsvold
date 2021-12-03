@@ -2,14 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
+import 'package:winsvold/blocs/product_view/product_bucket.dart';
+import 'package:winsvold/models/reduced_product.dart';
 import 'package:winsvold/views/ProductView/product_invalid.dart';
 import 'package:winsvold/views/ProductView/product_view_tile.dart';
 
 class Product extends StatefulWidget {
   final int productId;
+  final Map<UniqueKey, ReducedProduct> reducedProductMap;
   const Product({
     required this.productId,
+    required this.reducedProductMap,
     Key? key,
   }) : super(key: key);
 
@@ -18,15 +21,16 @@ class Product extends StatefulWidget {
 }
 
 class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
-  late ProductBloc _vmpBlocProvider;
+  late ProductBloc _productBlocProvider;
   late int productId;
+  final UniqueKey productKey = UniqueKey();
 
   @override
   void initState() {
     super.initState();
     productId = widget.productId;
-    _vmpBlocProvider = BlocProvider.of<ProductBloc>(context);
-    _vmpBlocProvider.add(ProductRequested(productId: productId));
+    _productBlocProvider = BlocProvider.of<ProductBloc>(context);
+    _productBlocProvider.add(ProductRequested(productId: productId));
   }
 
   @override
@@ -86,17 +90,11 @@ class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
         ],
       ));
     } else if (state is ProductSuccess) {
-      if (state.isQuantityView) {
-        return ProductViewTile(
-          reducedProduct: state.reducedProduct,
-          context: context,
-        );
-      } else {
-        return ProductViewTile(
-          reducedProduct: state.reducedProduct,
-          context: context,
-        );
-      }
+      widget.reducedProductMap[productKey] = state.reducedProduct;
+      return ProductViewTile(
+        reducedProduct: state.reducedProduct,
+        context: context,
+      );
     } else if (state is ProductInvalid) {
       return ProductInvalidTile(
         context: context,

@@ -21,8 +21,8 @@ class ExtractAmountList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ProductArguments;
+    final args = ModalRoute.of(context)!.settings.arguments as AmountArguments;
 
-    return AmountList(productList: args.productList);
+    return AmountList(reducedProductMap: args.reducedProductMap);
   }
 }

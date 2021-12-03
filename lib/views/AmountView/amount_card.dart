@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
+import 'package:winsvold/blocs/product_view/product_bucket.dart';
+import 'package:winsvold/models/reduced_product.dart';
 import 'package:winsvold/views/ProductView/product_invalid.dart';
 import 'package:winsvold/views/ProductView/product_view_tile.dart';
 
 import 'amount_list_tile.dart';
 
 class AmountCard extends StatefulWidget {
-  final int productId;
+  final ReducedProduct reducedProduct;
   const AmountCard({
-    required this.productId,
+    required this.reducedProduct,
     Key? key,
   }) : super(key: key);
 
@@ -21,15 +22,12 @@ class AmountCard extends StatefulWidget {
 
 class _AmountCardState extends State<AmountCard>
     with AutomaticKeepAliveClientMixin {
-  late ProductBloc _vmpBlocProvider;
-  late int productId;
+  late ReducedProduct reducedProduct;
 
   @override
   void initState() {
     super.initState();
-    productId = widget.productId;
-    _vmpBlocProvider = BlocProvider.of<ProductBloc>(context);
-    _vmpBlocProvider.add(ProductRequested(productId: productId));
+    reducedProduct = widget.reducedProduct;
   }
 
   @override
@@ -55,51 +53,15 @@ class _AmountCardState extends State<AmountCard>
                       horizontal: 12.0, vertical: 15.0),
                   child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: stateSelector(state, context)),
+                      child: AmountListTile(
+                        reducedProduct: reducedProduct,
+                        context: context,
+                      )),
                 ),
               ),
             ));
       },
     );
-  }
-
-  Widget stateSelector(ProductState state, BuildContext context) {
-    if (state is ProductLoading) {
-      return Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 340,
-            width: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: CircularProgressIndicator(),
-                ),
-                Text(
-                  "Laster inn produkt",
-                  style: Theme.of(context).textTheme.subtitle2,
-                )
-              ],
-            ),
-          )
-        ],
-      ));
-    } else if (state is ProductSuccess) {
-      return AmountListTile(
-        reducedProduct: state.reducedProduct,
-        context: context,
-      );
-    } else if (state is ProductInvalid) {
-      return ProductInvalidTile(
-        context: context,
-      );
-    } else {
-      return const Text("Neither Productloading or productsuccess");
-    }
   }
 
   @override

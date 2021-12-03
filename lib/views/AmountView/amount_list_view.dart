@@ -2,15 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
+import 'package:winsvold/blocs/product_view/product_bucket.dart';
 import 'package:winsvold/data/product_repository.dart';
+import 'package:winsvold/models/reduced_product.dart';
 import 'package:winsvold/views/AmountView/amount_card.dart';
 import 'package:winsvold/views/ProductView/product.dart';
 import 'package:winsvold/views/ProductView/product_view_tile.dart';
 
 class AmountList extends StatefulWidget {
-  final List<int> productList;
-  const AmountList({required this.productList, Key? key}) : super(key: key);
+  final Map<UniqueKey, ReducedProduct> reducedProductMap;
+  const AmountList({required this.reducedProductMap, Key? key})
+      : super(key: key);
 
   @override
   _AmountListState createState() => _AmountListState();
@@ -19,7 +21,8 @@ class AmountList extends StatefulWidget {
 class _AmountListState extends State<AmountList> {
   final productRepository = ProductRepository();
 
-  late List<int> productList = widget.productList;
+  late final Map<UniqueKey, ReducedProduct> reducedProductMap =
+      widget.reducedProductMap;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +40,11 @@ class _AmountListState extends State<AmountList> {
               return BlocProvider(
                   create: (context) =>
                       ProductBloc(repository: productRepository),
-                  child: AmountCard(productId: productList[index]));
+                  child: AmountCard(
+                      reducedProduct:
+                          reducedProductMap.values.elementAt(index)));
             },
-            childCount: productList.length,
+            childCount: reducedProductMap.values.length,
           ),
         ),
         SliverToBoxAdapter(

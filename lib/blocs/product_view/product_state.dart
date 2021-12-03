@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:winsvold/models/reduced_product.dart';
 import 'package:equatable/equatable.dart';
 
+enum Status { product, amount, overview }
+
 abstract class ProductState extends Equatable {
-  ProductState();
+  const ProductState();
 
   @override
   List<Object> get props => [];
@@ -14,12 +17,11 @@ class ProductFailed extends ProductState {}
 
 class ProductSuccess extends ProductState {
   final ReducedProduct reducedProduct;
-  bool isQuantityView = false;
 
   ProductSuccess({required this.reducedProduct});
 
   @override
-  List<Object> get props => [reducedProduct, isQuantityView];
+  List<Object> get props => [reducedProduct];
 
   @override
   String toString() => 'Success { categories: $reducedProduct }';

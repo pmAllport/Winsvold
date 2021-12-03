@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
+import 'package:winsvold/blocs/product_view/product_bucket.dart';
 import 'package:winsvold/data/product_repository.dart';
+import 'package:winsvold/models/reduced_product.dart';
 import 'package:winsvold/utils/navigator_arguments.dart';
 import 'package:winsvold/views/ProductView/product.dart';
 import 'package:winsvold/views/ProductView/product_view_tile.dart';
@@ -22,6 +23,7 @@ class _ProductListState extends State<ProductList> {
   final productRepository = ProductRepository();
 
   late List<int> productList = widget.productList;
+  final Map<UniqueKey, ReducedProduct> reducedProductMap = {};
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _ProductListState extends State<ProductList> {
       body: Center(
           child: CustomScrollView(slivers: <Widget>[
         SliverAppBar(
-          title: Text('Winsvold'),
+          title: const Text('Winsvold'),
           centerTitle: true,
           expandedHeight: 60.0,
           actions: [
@@ -50,7 +52,10 @@ class _ProductListState extends State<ProductList> {
               return BlocProvider(
                   create: (context) =>
                       ProductBloc(repository: productRepository),
-                  child: Product(productId: productList[index]));
+                  child: Product(
+                    productId: productList[index],
+                    reducedProductMap: reducedProductMap,
+                  ));
             },
             childCount: productList.length,
           ),
@@ -64,7 +69,8 @@ class _ProductListState extends State<ProductList> {
                 onPressed: (() => {
                       Navigator.of(context).pushNamed(
                           ExtractAmountList.routeName,
-                          arguments: ProductArguments(productList: productList))
+                          arguments: AmountArguments(
+                              reducedProductMap: reducedProductMap)),
                     }),
                 child: const Text("Fortsett videre og sett inn antall"),
               ),
@@ -96,6 +102,7 @@ Future<void> _buildDialog(BuildContext context, List<int> productList,
                 child: Text('Vennligst skriv inn produktnummeret.'),
               ),
               TextField(
+                keyboardType: TextInputType.number,
                 onSubmitted: (String input) {
                   productList.add(int.parse(input));
                   triggerRefresh();

@@ -21,7 +21,7 @@ class OCRPage extends StatefulWidget {
   final String title;
   final RegExp listRegex = RegExp(
       r'[0-9]{4}-[0-9]{2}-[0-9]{2}\s+[0-9]+:[0-9]+.*[a-zA-Z]+\s+\([0-9]+\s+[a-zA-Z]+\)');
-  final RegExp numberRegex = RegExp(r"[0-9]{6,8}");
+  final RegExp numberRegex = RegExp(r"[0-9]{5,8}");
 
   @override
   _OCRPageState createState() => _OCRPageState();
@@ -59,43 +59,43 @@ class _OCRPageState extends State<OCRPage> {
                             ),
                           ),
                           onPressed: () async {
-                            Navigator.of(context).pushNamed(
-                                ExtractProductList.routeName,
-                                arguments: ProductArguments(productList: [
-                                  2248502,
-                                  11164201,
-                                  1126801,
-                                  12934302
-                                ]));
+                            // Navigator.of(context).pushNamed(
+                            //     ExtractProductList.routeName,
+                            //     arguments: ProductArguments(productList: [
+                            //       2248502,
+                            //       11164201,
+                            //       1126801,
+                            //       12934302
+                            //     ]));
 
-                            // final ImagePicker _picker = ImagePicker();
-                            // _pickedImage = await _picker.pickImage(
-                            //     source: ImageSource.gallery);
-                            // setState(() {
-                            //   _scanning = true;
-                            // });
-                            // String _extractText =
-                            //     await FlutterTesseractOcr.extractText(
-                            //         _pickedImage!.path,
-                            //         language: 'nor');
-                            // setState(() {
-                            //   var matches = widget.listRegex.allMatches(
-                            //       _extractText.replaceAll("\n", " "));
+                            final ImagePicker _picker = ImagePicker();
+                            _pickedImage = await _picker.pickImage(
+                                source: ImageSource.gallery);
+                            setState(() {
+                              _scanning = true;
+                            });
+                            String _extractText =
+                                await FlutterTesseractOcr.extractText(
+                                    _pickedImage!.path,
+                                    language: 'nor');
+                            setState(() {
+                              var matches = widget.listRegex.allMatches(
+                                  _extractText.replaceAll("\n", " "));
 
-                            //   for (var match in matches) {
-                            //     debugPrint(match.group(0).toString());
-                            //   }
-                            //   var numberMatches = widget.numberRegex
-                            //       .allMatches(matches.first.group(0).toString())
-                            //       .map((match) =>
-                            //           int.parse(match.group(0).toString()))
-                            //       .toList();
-                            //   _scanning = false;
-                            //   Navigator.of(context).pushNamed(
-                            //       ExtractProductList.routeName,
-                            //       arguments: ProductArguments(
-                            //           productList: numberMatches));
-                            // });
+                              for (var match in matches) {
+                                debugPrint(match.group(0).toString());
+                              }
+                              var numberMatches = widget.numberRegex
+                                  .allMatches(matches.first.group(0).toString())
+                                  .map((match) =>
+                                      int.parse(match.group(0).toString()))
+                                  .toList();
+                              _scanning = false;
+                              Navigator.of(context).pushNamed(
+                                  ExtractProductList.routeName,
+                                  arguments: ProductArguments(
+                                      productList: numberMatches));
+                            });
                           },
                         ),
                       ),

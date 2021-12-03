@@ -3,14 +3,17 @@ import 'package:winsvold/views/OCRView/ocr.dart';
 import 'package:winsvold/views/ProductView/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/simple_bloc_observer.dart';
-import 'package:winsvold/blocs/vinmonopolet/product_bucket.dart';
+import 'package:winsvold/blocs/product_view/product_bucket.dart';
 import 'package:winsvold/data/product_repository.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:winsvold/views/ProductView/product_list.dart';
 import 'package:winsvold/views/routes.dart';
 
 void main() {
-  Bloc.observer = SimpleBlocObserver();
+  BlocOverrides.runZoned(
+    () {},
+    blocObserver: SimpleBlocObserver(),
+  );
   runApp(const MyApp());
 }
 
@@ -146,6 +149,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        home: OCRPage(title: "OCR"));
+        home: ProductList(
+            productList: [9133501, 9133501, 9133501, 9133501, 9133501]));
   }
 }
