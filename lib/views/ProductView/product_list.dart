@@ -7,7 +7,6 @@ import 'package:winsvold/data/product_repository.dart';
 import 'package:winsvold/models/reduced_product.dart';
 import 'package:winsvold/utils/navigator_arguments.dart';
 import 'package:winsvold/views/ProductView/product.dart';
-import 'package:winsvold/views/ProductView/product_view_tile.dart';
 
 import '../routes.dart';
 

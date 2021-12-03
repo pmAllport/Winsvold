@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:winsvold/models/reduced_product.dart';
 
 abstract class ProductEvent extends Equatable {
-  ProductEvent();
+  const ProductEvent();
 
   @override
   List get props => [];
@@ -11,7 +10,7 @@ abstract class ProductEvent extends Equatable {
 class ProductRequested extends ProductEvent {
   final int productId;
 
-  ProductRequested({required this.productId});
+  const ProductRequested({required this.productId});
 
   @override
 

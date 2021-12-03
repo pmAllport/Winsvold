@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:winsvold/views/OCRView/ocr.dart';
-import 'package:winsvold/views/ProductView/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/simple_bloc_observer.dart';
-import 'package:winsvold/blocs/product_view/product_bucket.dart';
-import 'package:winsvold/data/product_repository.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:winsvold/views/ProductView/product_list.dart';
 import 'package:winsvold/views/routes.dart';
 
 void main() {

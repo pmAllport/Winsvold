@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -27,7 +26,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             productId: event.productId, client: client);
 
         // This means that the product failed to fetch;
-      } catch (e, stacktrace) {
+      } catch (e) {
         debugPrint(e.toString());
         emit(ProductInvalid());
       }
@@ -44,12 +43,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
                   ReducedProduct.fromJson(jsonDecode(completeResponse.body))));
 
           // This means that the product failed to create a model from the json body. Probably a bad json from an outphased product.
-        } catch (e, stacktrace) {
+        } catch (e) {
           debugPrint(e.toString());
           emit(ProductInvalid());
         }
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
       emit(ProductFailed());
     }
   }

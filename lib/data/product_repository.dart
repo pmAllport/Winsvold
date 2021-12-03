@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 class ProductRepository {
@@ -8,7 +7,7 @@ class ProductRepository {
   Future<StreamedResponse?> fetchProduct(
       {required int productId, required Client client}) async {
     String url =
-        'https://www.vinmonopolet.no/api/products/${productId}?fields=FULL';
+        'https://www.vinmonopolet.no/api/products/$productId?fields=FULL';
     Request request = Request('GET', Uri.parse(url))..followRedirects = false;
 
     StreamedResponse response = await client.send(request);

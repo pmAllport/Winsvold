@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:winsvold/models/reduced_product.dart';
 import 'package:equatable/equatable.dart';
 
@@ -18,7 +17,7 @@ class ProductFailed extends ProductState {}
 class ProductSuccess extends ProductState {
   final ReducedProduct reducedProduct;
 
-  ProductSuccess({required this.reducedProduct});
+  const ProductSuccess({required this.reducedProduct});
 
   @override
   List<Object> get props => [reducedProduct];

@@ -1,11 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:winsvold/blocs/product_view/product_bucket.dart';
 import 'package:winsvold/models/reduced_product.dart';
-import 'package:winsvold/views/ProductView/product_invalid.dart';
-import 'package:winsvold/views/ProductView/product_view_tile.dart';
 
 import 'amount_list_tile.dart';
 

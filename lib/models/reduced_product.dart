@@ -1,7 +1,3 @@
-import 'dart:ffi';
-import 'package:flutter/foundation.dart';
-import 'package:winsvold/main.dart';
-
 class ReducedProduct {
   ReducedProduct({
     required this.name,

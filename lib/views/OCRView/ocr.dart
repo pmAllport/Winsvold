@@ -1,15 +1,6 @@
-import 'dart:async';
-import 'dart:developer';
-import 'dart:typed_data';
-
-import 'package:exif/exif.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter_tesseract_ocr/flutter_tesseract_ocr.dart';
-import 'package:flutter/services.dart' show ByteData, rootBundle;
-import 'dart:io';
-import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:winsvold/utils/navigator_arguments.dart';
 import 'package:winsvold/views/OCRView/bulletpoint.dart';
@@ -37,7 +28,7 @@ class _OCRPageState extends State<OCRPage> {
         centerTitle: true,
         title: const Text('Tesseract OCR'),
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(

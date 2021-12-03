@@ -6,7 +6,7 @@ import 'package:winsvold/views/summary_view/summary_list.dart';
 
 class ExtractProductList extends StatelessWidget {
   static const routeName = '/productList';
-  const ExtractProductList();
+  const ExtractProductList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ExtractProductList extends StatelessWidget {
 
 class ExtractAmountList extends StatelessWidget {
   static const routeName = '/amountList';
-  const ExtractAmountList();
+  const ExtractAmountList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ExtractAmountList extends StatelessWidget {
 
 class ExtractSummaryList extends StatelessWidget {
   static const routeName = '/summaryList';
-  const ExtractSummaryList();
+  const ExtractSummaryList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
