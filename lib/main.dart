@@ -52,6 +52,8 @@ class MyApp extends StatelessWidget {
                     return const ExtractProductList();
                   case ExtractAmountList.routeName:
                     return const ExtractAmountList();
+                  case ExtractSummaryList.routeName:
+                    return const ExtractSummaryList();
                   default:
                     return OCRPage(
                       title: "OCR",
@@ -149,7 +151,8 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        home: ProductList(
-            productList: [9133501, 9133501, 9133501, 9133501, 9133501]));
+        home: OCRPage(
+          title: "Winsvold",
+        ));
   }
 }

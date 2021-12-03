@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/product_view/product_bucket.dart';
 import 'package:winsvold/data/product_repository.dart';
 import 'package:winsvold/models/reduced_product.dart';
+import 'package:winsvold/utils/navigator_arguments.dart';
 import 'package:winsvold/views/AmountView/amount_card.dart';
 import 'package:winsvold/views/ProductView/product.dart';
 import 'package:winsvold/views/ProductView/product_view_tile.dart';
+import 'package:winsvold/views/routes.dart';
 
 class AmountList extends StatefulWidget {
   final Map<UniqueKey, ReducedProduct> reducedProductMap;
@@ -19,8 +21,6 @@ class AmountList extends StatefulWidget {
 }
 
 class _AmountListState extends State<AmountList> {
-  final productRepository = ProductRepository();
-
   late final Map<UniqueKey, ReducedProduct> reducedProductMap =
       widget.reducedProductMap;
 
@@ -37,12 +37,8 @@ class _AmountListState extends State<AmountList> {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              return BlocProvider(
-                  create: (context) =>
-                      ProductBloc(repository: productRepository),
-                  child: AmountCard(
-                      reducedProduct:
-                          reducedProductMap.values.elementAt(index)));
+              return AmountCard(
+                  reducedProduct: reducedProductMap.values.elementAt(index));
             },
             childCount: reducedProductMap.values.length,
           ),
@@ -54,9 +50,10 @@ class _AmountListState extends State<AmountList> {
               padding: const EdgeInsets.all(20),
               child: ElevatedButton(
                 onPressed: (() => {
-                      // Navigator.of(context).pushNamed(
-                      //     ExtractAmountList.routeName,
-                      //     arguments: ProductArguments(productList: productList))
+                      Navigator.of(context).pushNamed(
+                          ExtractSummaryList.routeName,
+                          arguments: SummaryArguments(
+                              reducedProductMap: reducedProductMap))
                     }),
                 child: const Text("Ferdig"),
               ),
