@@ -111,7 +111,30 @@ class _OCRPageState extends State<OCRPage> {
                               text:
                                   "Prøv å beskjære slik at bare kvitteringen vises."),
                         ],
-                      )
+                      ),
+                      Container(
+                        height: 50,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: ElevatedButton(
+                          child: const Text(
+                            'Test API',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () async {
+                            Navigator.of(context).pushNamed(
+                                ExtractProductList.routeName,
+                                arguments: ProductArguments(productList: [
+                                  2248502,
+                                  11164201,
+                                  1126801,
+                                  12934302
+                                ]));
+                          },
+                        ),
+                      ),
                     ],
                   )
                 : Container(),

@@ -41,7 +41,7 @@ class _SummaryListViewState extends State<SummaryListView> {
               padding: const EdgeInsets.all(20),
               child: ElevatedButton(
                 onPressed: (() => {}),
-                child: const Text("Done"),
+                child: const Text("Send epost til festkassen."),
               ),
             ),
           ),

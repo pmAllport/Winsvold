@@ -116,9 +116,10 @@ class MyApp extends StatelessWidget {
               color: Colors.white,
             ),
             bodyText2: GoogleFonts.notoSans(
-              fontSize: 14.0,
-              fontWeight: FontWeight.normal,
-              letterSpacing: 0.25,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.15,
+              color: Color(0xFF331300),
             ),
             button: GoogleFonts.notoSans(
               fontSize: 14.0,

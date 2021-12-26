@@ -29,28 +29,18 @@ class _SummaryCardState extends State<SummaryCard>
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Container(
-          decoration: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10.0,
-              ),
-            ],
-          ),
-          child: Card(
-            borderOnForeground: true,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: SummaryListTile(
-                    reducedProduct: reducedProduct,
-                    context: context,
-                  )),
-            ),
+          decoration: BoxDecoration(color: Colors.teal.shade100),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: SummaryListTile(
+                  reducedProduct: reducedProduct,
+                  context: context,
+                )),
           ),
         ));
   }

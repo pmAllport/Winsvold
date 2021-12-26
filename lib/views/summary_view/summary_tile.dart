@@ -29,48 +29,58 @@ class _SummaryListTileState extends State<SummaryListTile> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Row(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Flexible(
-            flex: 1,
+            flex: 4,
+            fit: FlexFit.loose,
             child: Text(
               widget.reducedProduct.name,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.left,
+              style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
-          reducedProduct.amount != null
-              ? Flexible(
-                  flex: 2,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
+          Flexible(
+            flex: 3,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  reducedProduct.amount != null
+                      ? Text(
                           reducedProduct.amount.toString() + "stk",
                           maxLines: 1,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.subtitle1,
+                        )
+                      : Text(
+                          "Ikke satt",
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.subtitle2,
                         ),
-                      ),
-                      Text(
+                  reducedProduct.amount != null
+                      ? Text(
                           (reducedProduct.amount! * reducedProduct.price)
                                   .toStringAsFixed(2) +
                               "kr",
                           maxLines: 1,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.subtitle1)
-                    ],
-                  ),
-                )
-              : Text("Ikke tilgjengelig",
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle1),
+                      : Text("0.00kr",
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.subtitle2)
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
