@@ -16,3 +16,7 @@ class SummaryArguments {
   final Map<UniqueKey, ReducedProduct> reducedProductMap;
   SummaryArguments({required this.reducedProductMap});
 }
+
+class SettingsArguments {
+  SettingsArguments();
+}

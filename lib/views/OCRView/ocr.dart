@@ -25,9 +25,17 @@ class _OCRPageState extends State<OCRPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Tesseract OCR'),
-      ),
+          centerTitle: true,
+          title: const Text('Tesseract OCR'),
+          actions: [
+            IconButton(
+                onPressed: (() => {
+                      Navigator.of(context).pushNamed(
+                        ExtractSettings.routeName,
+                      )
+                    }),
+                icon: Icon(Icons.settings)),
+          ]),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -50,15 +58,6 @@ class _OCRPageState extends State<OCRPage> {
                             ),
                           ),
                           onPressed: () async {
-                            // Navigator.of(context).pushNamed(
-                            //     ExtractProductList.routeName,
-                            //     arguments: ProductArguments(productList: [
-                            //       2248502,
-                            //       11164201,
-                            //       1126801,
-                            //       12934302
-                            //     ]));
-
                             final ImagePicker _picker = ImagePicker();
                             _pickedImage = await _picker.pickImage(
                                 source: ImageSource.gallery);

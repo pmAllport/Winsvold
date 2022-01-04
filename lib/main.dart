@@ -50,6 +50,8 @@ class MyApp extends StatelessWidget {
                     return const ExtractAmountList();
                   case ExtractSummaryList.routeName:
                     return const ExtractSummaryList();
+                  case ExtractSettings.routeName:
+                    return const ExtractSettings();
                   default:
                     return OCRPage(
                       title: "OCR",

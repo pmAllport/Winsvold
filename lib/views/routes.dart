@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:winsvold/utils/navigator_arguments.dart';
 import 'package:winsvold/views/AmountView/amount_list_view.dart';
 import 'package:winsvold/views/ProductView/product_list.dart';
+import 'package:winsvold/views/SettingsView/settings_view.dart';
 import 'package:winsvold/views/summary_view/summary_list.dart';
 
 class ExtractProductList extends StatelessWidget {
@@ -37,5 +38,15 @@ class ExtractSummaryList extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as SummaryArguments;
 
     return SummaryListView(reducedProductMap: args.reducedProductMap);
+  }
+}
+
+class ExtractSettings extends StatelessWidget {
+  static const routeName = '/settings';
+  const ExtractSettings({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SettingsView();
   }
 }
