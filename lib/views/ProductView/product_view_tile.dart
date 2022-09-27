@@ -182,7 +182,7 @@ Widget textInfoString(String text, String value, context) {
         child: Container(
             decoration: BoxDecoration(
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.secondaryVariant,
+                  color: Theme.of(context).colorScheme.secondaryContainer,
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Padding(

@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = const ColorScheme(
         primary: Color(0xff296459),
-        primaryVariant: Color(0xFF002025),
+        primaryContainer: Color(0xFF002025),
         secondary: Color(0xfff4f4f5),
-        secondaryVariant: Color(0xff002025),
+        secondaryContainer: Color(0xff002025),
         surface: Color(0xFF002025),
         background: Color(0xFFfefefe),
         error: Color(0xFF6C2025),
@@ -121,7 +121,7 @@ class MyApp extends StatelessWidget {
               fontSize: 16.0,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.15,
-              color: Color(0xFF331300),
+              color: const Color(0xFF331300),
             ),
             button: GoogleFonts.notoSans(
               fontSize: 14.0,
