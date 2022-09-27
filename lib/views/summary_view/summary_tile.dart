@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/foundation.dart';
 import 'package:winsvold/models/reduced_product.dart' as rp;
 import 'dart:core';
 
@@ -52,31 +49,19 @@ class _SummaryListTileState extends State<SummaryListTile> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  reducedProduct.amount != null
-                      ? Text(
-                          reducedProduct.amount.toString() + "stk",
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle1,
-                        )
-                      : Text(
-                          "Ikke satt",
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle2,
-                        ),
-                  reducedProduct.amount != null
-                      ? Text(
-                          (reducedProduct.amount! * reducedProduct.price)
-                                  .toStringAsFixed(2) +
-                              "kr",
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle1)
-                      : Text("0.00kr",
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle2)
+                  Text(
+                    reducedProduct.amount.toString() + "stk",
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                  Text(
+                      (reducedProduct.amount * reducedProduct.price)
+                              .toStringAsFixed(2) +
+                          "kr",
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle1)
                 ],
               ),
             ),

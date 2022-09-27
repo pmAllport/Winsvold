@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/product_view/product_bucket.dart';
 import 'package:winsvold/models/reduced_product.dart';
@@ -8,10 +6,10 @@ import 'package:winsvold/views/ProductView/product_invalid.dart';
 import 'package:winsvold/views/ProductView/product_view_tile.dart';
 
 class Product extends StatefulWidget {
-  final int productId;
+  final List<int> productList;
   final Map<UniqueKey, ReducedProduct> reducedProductMap;
   const Product({
-    required this.productId,
+    required this.productList,
     required this.reducedProductMap,
     Key? key,
   }) : super(key: key);
@@ -23,14 +21,17 @@ class Product extends StatefulWidget {
 class _ProductState extends State<Product> with AutomaticKeepAliveClientMixin {
   late ProductBloc _productBlocProvider;
   late int productId;
+  late int amount;
   final UniqueKey productKey = UniqueKey();
 
   @override
   void initState() {
     super.initState();
-    productId = widget.productId;
+    productId = widget.productList[0];
+    amount = widget.productList[1];
     _productBlocProvider = BlocProvider.of<ProductBloc>(context);
-    _productBlocProvider.add(ProductRequested(productId: productId));
+    _productBlocProvider
+        .add(ProductRequested(productId: productId, amount: amount));
   }
 
   @override

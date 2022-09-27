@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_tesseract_ocr/flutter_tesseract_ocr.dart';
-import 'package:flutter/foundation.dart';
 import 'package:winsvold/utils/navigator_arguments.dart';
 import 'package:winsvold/views/OCRView/bulletpoint.dart';
 import 'package:winsvold/views/routes.dart';
@@ -10,9 +9,10 @@ class OCRPage extends StatefulWidget {
   OCRPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
-  final RegExp listRegex = RegExp(
-      r'[0-9]{4}-[0-9]{2}-[0-9]{2}\s+[0-9]+:[0-9]+.*[a-zA-Z]+\s+\([0-9]+\s+[a-zA-Z]+\)');
-  final RegExp numberRegex = RegExp(r"[0-9]{5,8}");
+  final listRegex = RegExp(
+      r'[a-zA-Z]+ [0-9]+\s[0-9\-]+\s[0-9]{2}:[0-9]{2}\n([a-zA-Z0-9\n :.\/]*)\n[a-zA-Z0-9 ()]*(A|a)rtikler');
+  final numberAmountRegex = RegExp(
+      r'\n[a-zA-Z 0-9.]+\n([0-9]*)\n*(Antall: ([0-9]+) [a-zA-Z0-9. \/]*)?');
 
   @override
   _OCRPageState createState() => _OCRPageState();
@@ -34,7 +34,7 @@ class _OCRPageState extends State<OCRPage> {
                         ExtractSettings.routeName,
                       )
                     }),
-                icon: Icon(Icons.settings)),
+                icon: const Icon(Icons.settings)),
           ]),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -64,22 +64,24 @@ class _OCRPageState extends State<OCRPage> {
                             setState(() {
                               _scanning = true;
                             });
+
                             String _extractText =
                                 await FlutterTesseractOcr.extractText(
                                     _pickedImage!.path,
                                     language: 'nor');
                             setState(() {
-                              var matches = widget.listRegex.allMatches(
-                                  _extractText.replaceAll("\n", " "));
+                              var matches =
+                                  widget.listRegex.allMatches(_extractText);
 
-                              for (var match in matches) {
-                                debugPrint(match.group(0).toString());
-                              }
-                              var numberMatches = widget.numberRegex
+                              var numberMatches = widget.numberAmountRegex
                                   .allMatches(matches.first.group(0).toString())
-                                  .map((match) =>
-                                      int.parse(match.group(0).toString()))
+                                  .map((match) => [
+                                        int.parse(match.group(1).toString()),
+                                        int.parse(
+                                            (match.group(3) ?? 0).toString())
+                                      ])
                                   .toList();
+
                               _scanning = false;
                               Navigator.of(context).pushNamed(
                                   ExtractProductList.routeName,
@@ -123,14 +125,15 @@ class _OCRPageState extends State<OCRPage> {
                             ),
                           ),
                           onPressed: () async {
-                            Navigator.of(context).pushNamed(
-                                ExtractProductList.routeName,
-                                arguments: ProductArguments(productList: [
-                                  2248502,
-                                  11164201,
-                                  1126801,
-                                  12934302
-                                ]));
+                            Navigator.of(context)
+                                .pushNamed(ExtractProductList.routeName,
+                                    arguments: ProductArguments(productList: [
+                                      [2248502, 0],
+                                      [11164201, 1],
+                                      [1126801, 10],
+                                      [12934302, 2],
+                                      [9133502, 1],
+                                    ]));
                           },
                         ),
                       ),

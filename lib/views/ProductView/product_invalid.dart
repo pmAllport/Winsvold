@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/product_view/product_bucket.dart';
 
@@ -35,7 +33,8 @@ class _ProductInvalidTileState extends State<ProductInvalidTile> {
               keyboardType: TextInputType.number,
               onSubmitted: (String input) {
                 ProductBloc productBloc = BlocProvider.of<ProductBloc>(context);
-                productBloc.add(ProductRequested(productId: int.parse(input)));
+                productBloc.add(
+                    ProductRequested(productId: int.parse(input), amount: 0));
               },
               decoration: const InputDecoration(
                 enabledBorder: OutlineInputBorder(),

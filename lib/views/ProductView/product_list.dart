@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:winsvold/blocs/product_view/product_bucket.dart';
 import 'package:winsvold/data/product_repository.dart';
@@ -11,7 +9,7 @@ import 'package:winsvold/views/ProductView/product.dart';
 import '../routes.dart';
 
 class ProductList extends StatefulWidget {
-  final List<int> productList;
+  final List<List<int>> productList;
   const ProductList({required this.productList, Key? key}) : super(key: key);
 
   @override
@@ -21,7 +19,7 @@ class ProductList extends StatefulWidget {
 class _ProductListState extends State<ProductList> {
   final productRepository = ProductRepository();
 
-  late List<int> productList = widget.productList;
+  late List<List<int>> productList = widget.productList;
   final Map<UniqueKey, ReducedProduct> reducedProductMap = {};
 
   @override
@@ -52,7 +50,7 @@ class _ProductListState extends State<ProductList> {
                   create: (context) =>
                       ProductBloc(repository: productRepository),
                   child: Product(
-                    productId: productList[index],
+                    productList: productList[index],
                     reducedProductMap: reducedProductMap,
                   ));
             },
@@ -85,7 +83,7 @@ class _ProductListState extends State<ProductList> {
   }
 }
 
-Future<void> _buildDialog(BuildContext context, List<int> productList,
+Future<void> _buildDialog(BuildContext context, List<List<int>> productList,
     Function() triggerRefresh) async {
   return showDialog<void>(
     context: context,
@@ -103,7 +101,7 @@ Future<void> _buildDialog(BuildContext context, List<int> productList,
               TextField(
                 keyboardType: TextInputType.number,
                 onSubmitted: (String input) {
-                  productList.add(int.parse(input));
+                  productList.add([int.parse(input), 0]);
                   triggerRefresh();
                   Navigator.of(context).pop();
                 },

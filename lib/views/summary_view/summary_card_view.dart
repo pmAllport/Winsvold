@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:winsvold/models/reduced_product.dart';
 import 'package:winsvold/views/summary_view/summary_tile.dart';
 

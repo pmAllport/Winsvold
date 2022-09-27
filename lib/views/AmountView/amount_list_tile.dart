@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/foundation.dart';
 import 'package:winsvold/models/reduced_product.dart' as rp;
 import 'dart:core';
 
@@ -54,6 +51,8 @@ class _AmountListTileState extends State<AmountListTile> {
                   Flexible(
                     flex: 4,
                     child: TextField(
+                      controller: TextEditingController()
+                        ..text = widget.reducedProduct.amount.toString(),
                       keyboardType: TextInputType.number,
                       onChanged: (String value) {
                         if (int.tryParse(value) == null && value.isNotEmpty) {

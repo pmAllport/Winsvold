@@ -10,7 +10,7 @@ class ReducedProduct {
     required this.mainCountry,
     required this.litrePrice,
     required this.usesShots,
-    this.amount,
+    required this.amount,
   });
 
   final String name;
@@ -23,9 +23,10 @@ class ReducedProduct {
   final String mainCountry;
   final double litrePrice;
   final bool usesShots;
-  int? amount;
+  int amount;
 
-  factory ReducedProduct.fromJson(Map<String, dynamic> json) {
+  // Note: "ocrAmount refers to the amount detected by the OCR scan"
+  factory ReducedProduct.fromJson(Map<String, dynamic> json, int ocrAmount) {
     String name = json['name'].toString();
     double price = json['price']['value'].toDouble();
     Image image = Image.fromJson(json['images']);
@@ -46,6 +47,8 @@ class ReducedProduct {
         : false;
     String country = json['main_country']['name'].toString();
     double litrePrice = json['litrePrice']['value'].toDouble();
+    int amount = ocrAmount;
+
     return ReducedProduct(
         name: name,
         price: price,
@@ -56,7 +59,8 @@ class ReducedProduct {
         subCategory: subCategory,
         mainCountry: country,
         litrePrice: litrePrice,
-        usesShots: usesShots);
+        usesShots: usesShots,
+        amount: amount);
   }
 }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:winsvold/blocs/settings_view/settings_bucket.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +19,7 @@ class _SettingsViewState extends State<SettingsView> {
         ),
         body: BlocProvider(
             create: (context) => SettingsBloc(),
-            child: SettingsClassViewContainer()));
+            child: const SettingsClassViewContainer()));
   }
 }
 
@@ -39,7 +38,7 @@ class _SettingsClassViewContainerState
   void initState() {
     super.initState();
     _settingsBlocProvider = BlocProvider.of<SettingsBloc>(context);
-    _settingsBlocProvider.add(SettingsRequested());
+    _settingsBlocProvider.add(const SettingsRequested());
   }
 
   @override
@@ -48,27 +47,54 @@ class _SettingsClassViewContainerState
       if (state is SettingsLoading) {
         return Container(
           alignment: Alignment.center,
-          child: CircularProgressIndicator(),
+          child: const CircularProgressIndicator(),
         );
       } else if (state is SettingsSuccess) {
-        return SizedBox(
-          height: 500,
-          width: 300,
-          child: Row(
-            children: [Text(state.server), Text(state.name), Text(state.token)],
+        return Padding(
+          padding: const EdgeInsets.only(top: 30.0, left: 10.0, right: 10.0),
+          child: SizedBox(
+            height: 500,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black26, width: 1.0),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  settingsCard(state.server),
+                  settingsCard(state.name),
+                  settingsCard(state.token),
+                ],
+              ),
+            ),
           ),
         );
       } else if (state is SettingsFailed) {
         return Container(
           alignment: Alignment.center,
-          child: Text("En feil har oppstått"),
+          child: const Text("En feil har oppstått"),
         );
       } else {
         return Container(
           alignment: Alignment.center,
-          child: Text("En feil har oppstått"),
+          child: const Text("En feil har oppstått"),
         );
       }
     });
   }
+}
+
+Widget settingsCard(String settingsString) {
+  return SizedBox(
+    height: 100,
+    child: Card(
+      child: TextFormField(
+        initialValue: settingsString,
+        validator: (String? value) {
+          return (value != null) ? 'Feltet kan ikke være tomt.' : null;
+        },
+      ),
+    ),
+  );
 }

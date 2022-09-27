@@ -39,8 +39,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         client.close();
         try {
           emit(ProductSuccess(
-              reducedProduct:
-                  ReducedProduct.fromJson(jsonDecode(completeResponse.body))));
+              reducedProduct: ReducedProduct.fromJson(
+                  jsonDecode(completeResponse.body), event.amount)));
 
           // This means that the product failed to create a model from the json body. Probably a bad json from an outphased product.
         } catch (e) {

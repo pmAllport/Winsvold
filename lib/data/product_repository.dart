@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class ProductRepository {
@@ -8,6 +9,8 @@ class ProductRepository {
       {required int productId, required Client client}) async {
     String url =
         'https://www.vinmonopolet.no/api/products/$productId?fields=FULL';
+    debugPrint("requesturl\n");
+    debugPrint(url.toString());
     Request request = Request('GET', Uri.parse(url))..followRedirects = false;
 
     StreamedResponse response = await client.send(request);
@@ -30,6 +33,7 @@ Future<StreamedResponse?> redirectHandler(
         ..followRedirects = false;
 
       if (res.headers['set-cookie'] != null) {
+        debugPrint(res.headers['set-cookie']);
         req.headers['cookie'] = res.headers['set-cookie']!;
       }
 
